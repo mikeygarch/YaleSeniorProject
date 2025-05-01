@@ -5,15 +5,6 @@ import re
 class PolymarketMoves:
     @staticmethod
     def safe_parse_price(price_str):
-        """
-        Safely parse price from potentially problematic string formats
-
-        Args:
-            price_str (str): Raw price string from API
-
-        Returns:
-            float: Parsed price as a float, or None if parsing fails
-        """
         try:
             price_str = price_str.strip('[]"\'')
             return float(price_str)
@@ -58,7 +49,7 @@ class PolymarketEventFetcher:
     def clean_text(self, text):
         return re.sub(r'[^a-zA-Z0-9\s]', '', text).lower()
 
-
+    # Search for markets
     def filter_events_by_keywords(self, events, keywords):
         filtered_events = {}
         cleaned_keywords = [self.clean_text(keyword) for keyword in keywords]
@@ -75,7 +66,7 @@ class PolymarketEventFetcher:
 
 
 
-
+    # Show the markets
     def display_events(self, events):
         print("\n=== Market Events ===")
         event_ids = list(events.keys())
@@ -97,7 +88,7 @@ class PolymarketEventFetcher:
 
             yes_price = None
             no_price = None
-
+            # Show the probability
             try:
                 if 'outcomePrices' in market:
                     prices = market['outcomePrices']

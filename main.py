@@ -10,7 +10,7 @@ import re
 from typing import Dict, List, Any, Optional, Tuple
 import math
 
-# Import from existing files
+# Import from existing files in folder
 from twitter_scraper import TwitterScraper
 from twitter_analysis import TwitterSentimentAnalyzer
 from polymarket import PolymarketEventFetcher

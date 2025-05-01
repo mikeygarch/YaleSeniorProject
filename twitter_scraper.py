@@ -10,13 +10,6 @@ from typing import List, Dict, Optional
 
 class TwitterScraper:
     def __init__(self, bearer_token: Optional[str] = None, verbose: bool = False):
-        """
-        Initialize TwitterScraper with optional bearer token and verbosity control
-        
-        Args:
-            bearer_token (str, optional): Twitter API Bearer Token
-            verbose (bool, optional): Enable detailed logging
-        """
         logging.basicConfig(level=logging.INFO if verbose else logging.WARNING, 
                             format='%(asctime)s - %(levelname)s: %(message)s')
         
@@ -29,9 +22,7 @@ class TwitterScraper:
         self._validate_token()
 
     def _validate_token(self):
-        """
-        Validate the bearer token by making a minimal API call
-        """
+ 
         url = "https://api.twitter.com/2/tweets/search/recent"
         headers = {"Authorization": f"Bearer {self.bearer_token}"}
         
@@ -45,17 +36,7 @@ class TwitterScraper:
             self.logger.warning(f"Network error during token validation: {e}")
 
     def get_tweets_with_retry(self, query: str, max_results: int = 10, max_retries: int = 3) -> List[Dict]:
-        """
-        Search for tweets with retry mechanism
-        
-        Args:
-            query (str): Search query
-            max_results (int): Maximum number of results to return
-            max_retries (int): Number of retry attempts
-        
-        Returns:
-            List of processed tweets
-        """
+
         for attempt in range(max_retries):
             try:
                 tweets = self._search_tweets(query, max_results)
@@ -65,29 +46,17 @@ class TwitterScraper:
                 
                 self.logger.info(f"No tweets found. Attempt {attempt + 1} of {max_retries}")
                 
-                # Exponential backoff
                 time.sleep(2 ** attempt)
             
             except Exception as e:
                 self.logger.error(f"Error in attempt {attempt + 1}: {e}")
                 
-                # Exponential backoff
                 time.sleep(2 ** attempt)
         
         self.logger.error("Failed to retrieve tweets after multiple attempts.")
         return []
 
     def _search_tweets(self, query: str, max_results: int = 10) -> List[Dict]:
-        """
-        Internal method to search for tweets using X API v2
-        
-        Args:
-            query (str): Search query
-            max_results (int): Maximum number of results to return
-        
-        Returns:
-            List of processed tweets
-        """
         url = "https://api.twitter.com/2/tweets/search/recent"
         
         headers = {
@@ -127,15 +96,7 @@ class TwitterScraper:
             return []
 
     def _process_tweets(self, data: Dict) -> List[Dict]:
-        """
-        Process the tweet data from the API response
-        
-        Args:
-            data (dict): The API response data
-        
-        Returns:
-            List of processed tweets
-        """
+
         processed_tweets = []
         
         if "data" not in data:

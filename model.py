@@ -5,7 +5,6 @@ import json
 
 class BertSentimentAnalyzer:
     def __init__(self):
-        # Use BERT model fine-tuned for sentiment analysis
         self.model_name = "nlptown/bert-base-multilingual-uncased-sentiment"
         self.tokenizer = None
         self.model = None
@@ -22,19 +21,15 @@ class BertSentimentAnalyzer:
         if not self.model or not self.tokenizer:
             raise ValueError("Model not loaded. Call load() first.")
             
-        # Tokenize text
         inputs = self.tokenizer(text, return_tensors="pt", truncation=True, max_length=512)
         
-        # Get prediction
         with torch.no_grad():
             outputs = self.model(**inputs)
             predictions = outputs.logits
             scores = torch.softmax(predictions, dim=1)
             
-        # Convert scores to numpy for easier handling
         scores = scores.numpy()[0]
         
-        # Map scores to sentiments (model returns 1-5 ratings)
         rating_mapping = {
             1: "very negative",
             2: "negative",
@@ -46,7 +41,6 @@ class BertSentimentAnalyzer:
         predicted_rating = np.argmax(scores) + 1
         sentiment = rating_mapping[predicted_rating]
         
-        # Calculate confidence
         confidence = float(scores[predicted_rating - 1])
         
         return {
