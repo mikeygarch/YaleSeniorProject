@@ -1,0 +1,3 @@
+tweet_text,created_at,sentiment,confidence,rating,likes,retweets,replies,quotes
+RT @WalmansWalmart: Who will win the 2025 Stanley Cup?,2025-03-23 02:45:33,very negative,29.91,1,0,1,0,0
+Who will win the 2025 Stanley Cup?,2025-03-22 15:37:51,very positive,34.84,5,21,1,48,0
